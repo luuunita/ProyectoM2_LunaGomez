@@ -2,14 +2,21 @@ openapi: 3.0.0
 info:
   title: MiniBlog API
   version: 1.0.0
-  description: API REST para gestionar autores y publicaciones en MiniBlog
+  description: API REST para gestionar authors y posts de un miniblog
 
 servers:
   - url: https://proyectom2lunagomez-production.up.railway.app
 
+  tags:
+  - name: Authors
+    description: Operaciones relacionadas con autores
+  - name: Posts
+    description: Operaciones relacionadas con publicaciones
+
 paths:
   /api/authors:
     get:
+    tags: [Authors]
       summary: Obtener todos los autores
       responses:
         '200':
@@ -21,6 +28,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Author'
     post:
+    tags: [Authors]
       summary: Crear un nuevo autor
       requestBody:
         required: true
@@ -40,7 +48,7 @@ paths:
                   type: string
       responses:
         '201':
-          description: Autor creado
+          description: Autor creado correctamente
           content:
             application/json:
               schema:
@@ -51,9 +59,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '409': 
+          description: Problema (ejemplo. email duplicado)
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/schemas/Error'
+
 
   /api/authors/{id}:
     get:
+    tags: [Authors]
       summary: Obtener autor por ID
       parameters:
         - in: path
@@ -68,6 +84,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+        '400':
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: Autor no encontrado
           content:
@@ -75,6 +97,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     put:
+      tags: [Authors]
       summary: Actualizar autor
       parameters:
         - in: path
@@ -105,6 +128,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+          '400':
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'      
         '404':
           description: Autor no encontrado
           content:
@@ -112,6 +141,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
+    tags: [Authors]
       summary: Eliminar autor
       parameters:
         - in: path
@@ -126,6 +156,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+         '400':
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'       
         '404':
           description: Autor no encontrado
           content:
@@ -135,6 +171,7 @@ paths:
 
   /api/posts:
     get:
+    tags: [Posts]
       summary: Obtener todos los posts
       responses:
         '200':
@@ -146,6 +183,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Post'
     post:
+    tags: [Posts]
       summary: Crear un nuevo post
       requestBody:
         required: true
@@ -182,6 +220,7 @@ paths:
 
   /api/posts/{id}:
     get:
+    tags: [Posts]
       summary: Obtener post por ID
       parameters:
         - in: path
@@ -203,6 +242,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     put:
+    tags: [Posts]
       summary: Actualizar post
       parameters:
         - in: path
@@ -243,6 +283,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
+    tags: [Posts]
       summary: Eliminar post
       parameters:
         - in: path
@@ -271,6 +312,7 @@ paths:
 
   /api/posts/author/{authorId}:
     get:
+    tags: [Posts]
       summary: Obtener posts por autor
       parameters:
         - in: path
@@ -288,65 +330,84 @@ paths:
                 items:
                   $ref: '#/components/schemas/PostWithAuthor'
 
-components:
-  schemas:
-    Author:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        bio:
-          type: string
-        created_at:
-          type: string
-          format: date-time
+Author:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 1
+    name:
+      type: string
+      example: Gabriel García Márquez
+    email:
+      type: string
+      example: gabriel@email.com
+    bio:
+      type: string
+      example: Escritor colombiano
+    created_at:
+      type: string
+      format: date-time
+      example: 2026-03-13T10:00:00.000Z
 
     Post:
-      type: object
-      properties:
-        id:
-          type: integer
-        title:
-          type: string
-        content:
-          type: string
-        author_id:
-          type: integer
-        published:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 1
+    title:
+      type: string
+      example: Cien años de soledad
+    content:
+      type: string
+      example: Novela de la literaria latinoamericana.
+    author_id:
+      type: integer
+      example: 1
+    published:
+      type: boolean
+      example: true
+    created_at:
+      type: string
+      format: date-time
+      example: 2026-03-13T10:00:00.000Z
 
     PostWithAuthor:
-      type: object
-      properties:
-        id:
-          type: integer
-        title:
-          type: string
-        content:
-          type: string
-        author_id:
-          type: integer
-        published:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
-        author_name:
-          type: string
-        author_email:
-          type: string
-        author_bio:
-          type: string
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 1
+    title:
+      type: string
+      example: Cien años de soledad
+    content:
+      type: string
+      example: Novela literaria latinoamericana.
+    author_id:
+      type: integer
+      example: 1
+    published:
+      type: boolean
+      example: true
+    created_at:
+      type: string
+      format: date-time
+      example: 2026-03-13T10:00:00.000Z
+    author_name:
+      type: string
+      example: Gabriel García Márquez
+    author_email:
+      type: string
+      example: gabriel@email.com
+    author_bio:
+      type: string
+      example: Escritor colombiano
 
     Error:
       type: object
       properties:
         error:
           type: string
+          example: Autor no encontrado
