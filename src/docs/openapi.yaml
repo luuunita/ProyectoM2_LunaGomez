@@ -159,7 +159,7 @@ paths:
           schema:
             type: integer
       responses:
-        '204':
+        '200':
           description: Autor eliminado
           content:
             application/json:
@@ -176,13 +176,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '409':
-          description: No se puede eliminar autor con posts asociados
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'        
+                $ref: '#/components/schemas/Error'       
 
   /api/posts:
     get:
@@ -257,7 +251,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
-         '400':
+        '400':
           description: Datos inválidos
           content:
             application/json:
@@ -328,7 +322,7 @@ paths:
           schema:
             type: integer
       responses:
-        '204':
+        '200':
           description: Post eliminado
           content:
             application/json:
