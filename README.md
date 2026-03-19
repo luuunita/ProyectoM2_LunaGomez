@@ -122,7 +122,7 @@ git push
 ### 1️⃣ Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU-USUARIO/TU-REPO.git
+git clone https://github.com/luuunita/ProyectoM2_LunaGomez.git
 ```
 
 ### 2️⃣ Instalar dependencias
