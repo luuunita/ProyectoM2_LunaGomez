@@ -281,3 +281,8 @@ generar ejemplos de endpoints y apoyar la documentación del proyecto
 ![Cuarta respuesta](./docs/images/RESPUESTAPROMPT.png)
 ![Quinto Prompt](./docs/images/APIPROMPT.png)
 ![Quinta respuesta](./docs/images/APIRESPUESTA.png)
+
+## Autor
+**Luna Catalina Gómez Amar**  
+Estudiante de **Full Stack Development**  
+GitHub: https://github.com/luuunita
